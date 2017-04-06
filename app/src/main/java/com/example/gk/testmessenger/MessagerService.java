@@ -36,16 +36,17 @@ public class MessagerService extends Service {
             //接受到消息后，进行回复
             //通过replyTo拿到Messenger对象
             Messenger messenger = msg.replyTo;
-            Message message = Message.obtain(null, 888);
-            Bundle bundle = new Bundle();
-            bundle.putString("reply", "好的，我收到你的信息了");
-            message.setData(bundle);
-            try {
-                messenger.send(message);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+            if (null != messenger) {
+                Message message = Message.obtain(null, 888);
+                Bundle bundle = new Bundle();
+                bundle.putString("reply", "好的，我收到你的信息了");
+                message.setData(bundle);
+                try {
+                    messenger.send(message);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
-
         }
     });
 }
