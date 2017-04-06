@@ -3,6 +3,7 @@ package com.example.testmessengerclient;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -39,6 +40,7 @@ public class ClientActivity extends AppCompatActivity {
             bundle.putString("data", "你好 来自客户端");
             //往消息中存数据
             message.setData(bundle);
+            message.replyTo = replyMessenger;
             //消息者发送消息
             try {
                 messenger.send(message);
@@ -63,4 +65,13 @@ public class ClientActivity extends AppCompatActivity {
             Log.e("test", "ClientActivity onServiceDisconnected");
         }
     };
+
+    private Messenger replyMessenger = new Messenger(new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.e("test", "ClientActivity 收到服务器的返回消息:" + msg.toString());
+        }
+    });
+
 }
